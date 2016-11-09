@@ -26,6 +26,10 @@ public class Wei extends HexQuantity {
         return new Wei(value);
     }
 
+    public static Wei from(Long value) {
+        return new Wei(new BigInteger(value.toString()));
+    }
+
     /**
      *
      * @param value amount in Ether

@@ -4,7 +4,6 @@ import org.ethereumclassic.etherjar.model.*;
 import org.ethereumclassic.etherjar.rpc.json.*;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.Future;
 
 /**
@@ -243,6 +242,32 @@ public interface RpcClient {
          * @throws IOException
          */
         public Future<String[]> getCompilers() throws IOException;
+
+        /**
+         * Creates new message call uncompletedTransaction or a contract creation, if the data field contains code.
+         * @param uncompletedTransaction
+         * @return 32 Bytes - the uncompletedTransaction hash, or the zero hash if the uncompletedTransaction is not yet available.
+         * @throws IOException
+         */
+        public Future<TransactionId> sendTransaction(Transaction uncompletedTransaction) throws IOException;
+
+        /**
+         * Creates new message call transaction or a contract creation for signed transactions.
+         * @param The signed transaction data.
+         * @return 32 Bytes - the transaction hash, or the zero hash if the transaction is not yet available.
+         * @throws IOException
+         */
+        public Future<TransactionId> sendRawTransaction(HexData data) throws IOException;
+
+        /**
+         * Signs data with a given address.
+         * Note the address to sign must be unlocked.
+         * @param address
+         * @param Data to sign
+         * @return Signature
+         * @throws IOException
+         */
+        public Future<HexData> sign(Address address, Hex32 data) throws IOException;
     }
 
     interface TraceCommands {

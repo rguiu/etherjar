@@ -5,6 +5,7 @@ import org.ethereumclassic.etherjar.model.BlockHash;
 import org.ethereumclassic.etherjar.model.Hex32;
 import org.ethereumclassic.etherjar.model.HexData;
 import org.ethereumclassic.etherjar.model.HexQuantity;
+import org.ethereumclassic.etherjar.model.Transaction;
 import org.ethereumclassic.etherjar.model.Nonce;
 import org.ethereumclassic.etherjar.model.TransactionId;
 import org.ethereumclassic.etherjar.model.Wei;
@@ -275,6 +276,31 @@ public class DefaultRpcClient implements RpcClient {
                     String[].class);
             return resp;
         }
+
+        @Override
+        public Future<TransactionId> sendTransaction(Transaction transaction) throws IOException {
+            Future<TransactionId> resp = transport.execute("eth_sendTransaction",
+                    Arrays.asList(transaction),
+                    TransactionId.class);
+            return resp;
+        }
+
+        @Override
+        public Future<TransactionId> sendRawTransaction(HexData data) throws IOException {
+            Future<TransactionId> resp = transport.execute("eth_sendTransaction",
+                    Arrays.asList(data),
+                    TransactionId.class);
+            return resp;
+        }
+
+        @Override
+        public Future<HexData> sign(Address address, Hex32 data) throws IOException {
+            Future<HexData> resp = transport.execute("eth_sign",
+                    Arrays.asList(address, data),
+                    HexData.class);
+            return resp;
+        }
+
     }
 
     public static class TraceCommandsImpl implements TraceCommands {
